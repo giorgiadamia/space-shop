@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional // if error occurs then nothing will happen in db
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -42,8 +42,8 @@ public class OrderService {
                 .uri("http://localhost:8082/api/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build())
                 .retrieve()
-                .bodyToMono(InventoryResponse[].class)
-                .block();// sync
+                .bodyToMono(InventoryResponse[].class) // type of response
+                .block();// make it sync request
 
         boolean allProductsInStock = false;
         if (inventoryResponses != null) {
