@@ -21,7 +21,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
@@ -56,8 +56,6 @@ public class OrderService {
         } else {
             throw new IllegalArgumentException("Product in not in Stock, try again later");
         }
-
-        orderRepository.save(order);
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
