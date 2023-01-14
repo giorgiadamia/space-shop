@@ -35,11 +35,14 @@ public class OrderService {
         order.setOrderLineItemsList(orderLineItems);
 
 
-        List<String> skuCodeList = order.getOrderLineItemsList().stream().map(OrderLineItems::getSkuCode).toList();
+        List<String> skuCodeList = order.getOrderLineItemsList()
+                .stream()
+                .map(OrderLineItems::getSkuCode)
+                .toList();
 
         // Call Inventory Service and place order if product is in stock
-        InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:8082/api/inventory",
+        InventoryResponse[] inventoryResponses = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory", // server discovery pattern
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class) // type of response
