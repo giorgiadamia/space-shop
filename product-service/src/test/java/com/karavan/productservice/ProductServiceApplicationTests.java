@@ -1,6 +1,5 @@
 package com.karavan.productservice;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karavan.productservice.dto.ProductRequest;
 import com.karavan.productservice.repository.ProductRepository;
@@ -49,8 +48,8 @@ class ProductServiceApplicationTests {
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(productRequestString))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productRequestString))
                 .andExpect(status().isCreated()); // check for 201
         Assertions.assertEquals(1, productRepository.findAll().size());
     }
